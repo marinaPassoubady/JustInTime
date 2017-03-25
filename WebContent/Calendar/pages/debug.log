@@ -1,0 +1,6 @@
+[0227/145501:ERROR:crash_report_database_win.cc(563)] CreateDirectory C:\Program Files (x86)\reports: Accès refusé. (0x5)
+[0227/145501:ERROR:registration_protocol_win.cc(82)] TransactNamedPipe: Le canal de communication a été fermé. (0x6D)
+[0227/145501:ERROR:crash_report_database_win.cc(563)] CreateDirectory C:\Program Files (x86)\reports: Accès refusé. (0x5)
+[0227/145516:ERROR:crash_report_database_win.cc(563)] CreateDirectory C:\Program Files (x86)\reports: Accès refusé. (0x5)
+[0227/145516:ERROR:registration_protocol_win.cc(82)] TransactNamedPipe: Le canal de communication a été fermé. (0x6D)
+[0227/145516:ERROR:crash_report_database_win.cc(563)] CreateDirectory C:\Program Files (x86)\reports: Accès refusé. (0x5)
