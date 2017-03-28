@@ -25,4 +25,38 @@
     <servlet-name>CreerTache</servlet-name>
     <url-pattern>/CreerTache</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>TacheP</servlet-name>
+    <servlet-class>controle.ServletTachePartagees</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TacheP</servlet-name>
+    <url-pattern>/servletTacheP</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>GestionCompte</servlet-name>
+    <servlet-class>controle.ServletGestionCompte</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GestionCompte</servlet-name>
+    <url-pattern>/ajoutAmi</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ModifProfil</servlet-name>
+    <servlet-class>controle.ServletGestionCompte</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ModifProfil</servlet-name>
+    <url-pattern>/ModifProfil</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>ServletDeco</servlet-name>
+    <servlet-class>controle.ServletDeconnexion</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletDeco</servlet-name>
+    <url-pattern>/ServletDeco</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

@@ -14,6 +14,31 @@ html, body {
     font-size: 50%;
   }
 }
+#loginmodal {
+  width: 300px;
+  padding: 15px 20px;
+  background: #f3f6fa;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+  background-image: url(images/fond2.jpg);
+}
+
+h2#erreur {
+font-size: 30px;
+color : white;
+background-color : #ff000080;
+padding-left: 150px;
+padding-right : 150px;
+font-weight: initial;
+padding-top: 12px;
+text-align: center;
+font-family: 'Cookie-Regular';
+    /* font-family: "Open Sans", Helvetica, Arial, sans-serif; */
+}
 
 svg {
   display: inline-block;
@@ -38,16 +63,16 @@ input, button {
 
 h1{
 	color: #f3f4f7;
-    font-size: 50px;
-    font-weight: initial;
-    padding-top: 22px;
-    text-align: center;
-    font-family: 'Cookie-Regular';
+font-size: 67px;
+font-weight: initial;
+padding-top: 12px;
+text-align: center;
+font-family: 'Cookie-Regular';
     /* font-family: "Open Sans", Helvetica, Arial, sans-serif; */
 }
  @font-face {
 font-family: 'Cookie-Regular';
-src: url(../AdminLTE-master/bootstrap/fonts/Cookie-Regular.ttf) format('truetype');
+src: url(../bootstrap/fonts/Cookie-Regular.ttf) format('truetype');
 font-weight: normal;
 font-style: normal;
 }	
@@ -214,6 +239,8 @@ font-style: normal;
 .login__signup a {
   color: #fff;
   cursor: pointer;
+  text-decoration: none;
+    font-weight: bold;
 }
 
 .app {

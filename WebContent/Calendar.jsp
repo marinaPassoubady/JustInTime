@@ -1,13 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.Date" %>
-
+    pageEncoding="ISO-8859-1"
+    import="metier.User"
+    import="metier.TacheSimple"
+    import="java.util.ArrayList"
+    import="java.util.Date" 
+    %>
+    
 <%ArrayList<String> moisS = new ArrayList<String>();
 
 for(int i = 0; i < 11; ++i) {
 	moisS.add("janvier");
-	moisS.add("février");
+	moisS.add("fÃ©vrier");
 	moisS.add("mars");
 	moisS.add("avril");
 	moisS.add("mai");
@@ -17,12 +20,12 @@ for(int i = 0; i < 11; ++i) {
 	moisS.add("septembre");
 	moisS.add("octobre");
 	moisS.add("novembre");
-	moisS.add("décembre");	
+	moisS.add("dÃ©cembre");	
 } %>
 <!doctype html>
 <html lang="en-US">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
   <title>Modal Login Window Demo</title>
    <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -35,13 +38,14 @@ for(int i = 0; i < 11; ++i) {
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-
-  <!-- JavasScript + JQueryUI (pour le datepicker) -->
+	
+   <!-- JavasScript + JQueryUI (pour le datepicker) -->
 	<link rel="stylesheet" href="jquery-ui-1.12.1.custom/jquery-ui.min.css">
 	<script src="jquery-ui-1.12.1.custom/external/jquery/jquery.js"></script>
 	<script src="jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
 	<script src="jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 
+	
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
   <link rel="stylesheet" href="dist/css/skins/skin-blue.min.css">
@@ -49,22 +53,34 @@ for(int i = 0; i < 11; ++i) {
   <link rel="icon" href="http://designshack.net/favicon.ico">
   <link rel="stylesheet" type="text/css" media="all" href="style.css">
   <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
-   <script type="text/javascript" src="js/popup.js"></script>
+
   <script type="text/javascript" charset="utf-8" src="js/jquery.leanModal.min.js"></script>
   <!-- jQuery plugin leanModal under MIT License http://leanmodal.finelysliced.com.au/ -->
-  
     <!-- Calendar -->
-  <link href='css/fullcalendar.min.css' rel='stylesheet' />
+<link href='css/fullcalendar.min.css' rel='stylesheet' />
 <link href='css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
 <link rel="stylesheet" type="text/css" href="css/sweetalert2.min.css">
+<link href="toast/build/toastr.css" rel="stylesheet"/>
 <script src='lib/moment.min.js'></script>
 <script src='js/fullcalendar.min.js'></script>
 <script src="js/sweetalert2.min.js"></script>
 <script src='js/calendar.js'></script>
+<script src="toast/toastr.js"></script>
+<script src='js/ajoutAmi.js'></script>
   
 </head>
 
+<% session = request.getSession();
+ArrayList<TacheSimple> taches = (ArrayList<TacheSimple>) session.getAttribute("listeTaches");
+User u = (User) session.getAttribute("user_identifie");
 
+String msgErrorTache = (String) request.getAttribute("erreur_saisietache");
+String msgConfirmTache = (String) request.getAttribute("msgConfirmTache");
+String msgErrorInsert = (String) request.getAttribute("erreur_horaire");
+String msgErrorDispo = (String) request.getAttribute("erreur_horairePartage");
+String msgErrorTacheBase = (String) request.getAttribute("erreur_tacheBase");
+String msgFriendExst = (String) request.getAttribute("erreur_AmiExiste"); 
+%>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
@@ -72,11 +88,11 @@ for(int i = 0; i < 11; ++i) {
   <header class="main-header">
 
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="Calendar.jsp" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>A</b>LT</span>
+      <span class="logo-mini"><b>J</b>iT</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg">Just in<b> TIME</b></span>
+      <span class="logo-lg">Just in<b style="font-weight:bold;">TIME</b></span>
     </a>
 
     <!-- Header Navbar -->
@@ -91,96 +107,39 @@ for(int i = 0; i < 11; ++i) {
           <!-- Messages: style can be found in dropdown.less-->
           <li class="dropdown messages-menu">
             <!-- Menu toggle button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-envelope-o"></i>
-              <span class="label label-success">4</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">You have 4 messages</li>
-              <li>
-                <!-- inner menu: contains the messages -->
-                <ul class="menu">
-                  <li><!-- start message -->
-                    <a href="#">
-                      <div class="pull-left">
-                        <!-- User Image -->
-                        <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-                      </div>
-                      <!-- Message title and timestamp -->
-                      <h4>
-                        Support Team
-                        <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                      </h4>
-                      <!-- The message -->
-                      <p>Why not buy a new awesome theme?</p>
-                    </a>
-                  </li>
-                  <!-- end message -->
-                </ul>
-                <!-- /.menu -->
-              </li>
-              <li class="footer"><a href="#">See All Messages</a></li>
-            </ul>
+           
+           
           </li>
           <!-- /.messages-menu -->
 
           <!-- Notifications Menu -->
           <li class="dropdown notifications-menu">
             <!-- Menu toggle button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-bell-o"></i>
-              <span class="label label-warning">10</span>
-            </a>
+            
             <ul class="dropdown-menu">
-              <li class="header">You have 10 notifications</li>
-              <li>
+              
                 <!-- Inner Menu: contains the notifications -->
                 <ul class="menu">
                   <li><!-- start notification -->
-                    <a href="#">
-                      <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                    </a>
+                  
                   </li>
                   <!-- end notification -->
                 </ul>
               </li>
-              <li class="footer"><a href="#">View all</a></li>
+             
             </ul>
           </li>
           <!-- Tasks Menu -->
           <li class="dropdown tasks-menu">
             <!-- Menu Toggle Button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-flag-o"></i>
-              <span class="label label-danger">9</span>
-            </a>
+            
             <ul class="dropdown-menu">
-              <li class="header">You have 9 tasks</li>
+              
               <li>
                 <!-- Inner menu: contains the tasks -->
-                <ul class="menu">
-                  <li><!-- Task item -->
-                    <a href="#">
-                      <!-- Task title and progress text -->
-                      <h3>
-                        Design some buttons
-                        <small class="pull-right">20%</small>
-                      </h3>
-                      <!-- The progress bar -->
-                      <div class="progress xs">
-                        <!-- Change the css width attribute to simulate progress -->
-                        <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                          <span class="sr-only">20% Complete</span>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <!-- end task item -->
-                </ul>
+                
               </li>
-              <li class="footer">
-                <a href="#">View all tasks</a>
-              </li>
+             
             </ul>
           </li>
           <!-- User Account Menu -->
@@ -188,42 +147,36 @@ for(int i = 0; i < 11; ++i) {
             <!-- Menu Toggle Button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <!-- The user image in the navbar-->
-              <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+             
+              
+                    
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">Shangévi SRIKARAN</span>
+             
+              <span class="hidden-xs" style="font-size: 13px; font-weight: bold;font-family: helvetica;"><%=u.getNom()%> <%=u.getPrenom() %></span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
               <li class="user-header">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
+               <%if(u.getStatut().equals("professionnel")){ %>
+              <img src="images/pro.jpg" class="img-circle" alt="User Image">
+              <%} else if(u.getStatut().equals("autre")){ %>
+             <img src="images/autre.jpg" class="img-circle" alt="User Image">
+              <%} else {%>
+               <img src="images/etudiant.jpg"class="img-circle" alt="User Image">
+              <%} %>
                 <p>
-                  Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2012</small>
+                  <%=u.getNom()%> <%=u.getPrenom() %> (<%=u.getStatut()%>)
                 </p>
               </li>
               <!-- Menu Body -->
-              <li class="user-body">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Followers</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Sales</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Friends</a>
-                  </div>
-                </div>
-                <!-- /.row -->
-              </li>
+         
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="servletTacheP" class="btn btn-default btn-flat">Profil</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="ServletDeco" class="btn btn-default btn-flat">D&eacute;connexion</a>
                 </div>
               </li>
             </ul>
@@ -245,42 +198,64 @@ for(int i = 0; i < 11; ++i) {
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <%if(u.getStatut().equals("professionnel")){%>
+               <img src="images/pro.jpg" class="img-circle"  alt="User Image">
+              <%} else if(u.getStatut().equals("autre")){ %>
+                <img src="images/autre.jpg"   class="img-circle" alt="User Image">
+              <%} else { %>
+             <img src="images/etudiant.jpg"  class="img-circle" alt="User Image">
+              <%} %>
+          
         </div>
         <div class="pull-left info">
-          <p>Alexander Pierce</p>
+          <p style="color: white;"> <%=u.getNom() %>  <%=u.getPrenom() %></p>
           <!-- Status -->
-          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+          <a href="servletTacheP"><i class="fa fa-circle text-success"></i>En ligne</a>
         </div>
       </div>
 
-      <!-- search form (Optional) -->
-      <form action="#" method="get" class="sidebar-form">
+<!-- search form (Optional) -->
+      <div class="sidebar-form">
         <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Search...">
+          <input type="text" id="amiSearch" name="amiSearch" class="form-control" placeholder="Ajouter un ami..">
               <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                <button name="ajoutAmi" id="search-btn" class="btn btn-flat" onClick="onSubmit();"><i class="fa fa-search"></i>
                 </button>
               </span>
         </div>
-      </form>
+      </div>
       <!-- /.search form -->
 
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu">
-        <li class="header">HEADER</li>
+        <li class="header" style="text-align:center">PLANIFIER VOTRE AGENDA </li>
         <!-- Optionally, you can add icons to the links -->
-        <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
+      
+        <li><a href="#loginmodal9"  id="modaltrigger9" ><i class="fa fa-link"></i><span>Ajouter une t&acirc;che Mensuelle</span></a></li>
+        <li><a href="#loginmodal10"  id="modaltrigger10" ><i class="fa fa-link"></i><span>Ajouter une t&acirc;che Continue</span></a></li>
+        <li><a href="#loginmodal11"  id="modaltrigger11" ><i class="fa fa-link"></i><span>Ajouter une t&acirc;che Partag&eacutee</span></a></li>
+        <li><a href="#loginmodal12"  id="modaltrigger12" ><i class="fa fa-link"></i><span>Ajouter une t&acirc;che Group&eacutee</span></a></li>
+        <li><a href="#loginmodal13"  id="modaltrigger13" ><i class="fa fa-link"></i><span>Ajouter une t&acirc;che Obligatoire</span></a></li>
+           
         <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
-            <span class="pull-right-container">
+          <a href="#loginmodal"  id="modaltrigger" ><i class="fa fa-link"></i><span>Ajouter une t&acirc;che Simple</span></a>
+            <a class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
+            </a>
+          
           <ul class="treeview-menu">
-            <li><a href="#">Link in level 2</a></li>
-            <li><a href="#">Link in level 2</a></li>
+            
+        <%if(u.getStatut().equals("professionnel")){  %>
+      	<li><a href="#loginmodal2"   id="modaltrigger2"><i class="fa fa-link"></i><span>Fixer une conf&eacute;rence</span></a></li>
+     	 <li> <a href="#loginmodal3"  id="modaltrigger3"><i class="fa fa-link"></i> <span>Fixer une r&eacute;union</span></a></li>
+         <%} else if(u.getStatut().equals("autre")){ %>
+        <li> <a href="#loginmodal7"  id="modaltrigger7"><i class="fa fa-link"></i> <span>Fixer un rendez-vous</span></a></li>
+        <li> <a href="#loginmodal8"  id="modaltrigger8"><i class="fa fa-link"></i><span>Fixer une sortie</span></a></li>
+         <%} else {  %>
+         <li> <a href="#loginmodal4"  id="modaltrigger4"><i class="fa fa-link"></i> <span>Fixer un DST</span></a></li>
+        <li> <a href="#loginmodal5"  id="modaltrigger5"><i class="fa fa-link"></i><span>Fixer un projet</span></a></li>
+         <li> <a href="#loginmodal6"  id="modaltrigger6"><i class="fa fa-link"></i> <span>Fixer une soir&eacute;e &eacute;tudiante</span></a></li>
+         <%} %>
           </ul>
         </li>
       </ul>
@@ -294,30 +269,15 @@ for(int i = 0; i < 11; ++i) {
   <div class="content-wrapper" style="min-height: 1px;">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
-        Calendar
-        <small>Control panel</small>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Calendar</li>
-      </ol>
     </section>
-
     <!-- Main content -->
     <section class="content">
       <div class="row">
         <div class="col-md-3">
-  	  <div id="w">
-    <div id="content">
-      <a href="#loginmodal" class="flatbtn" id="modaltrigger" style="font-size: 10px; margin:10px">Ajouter une tacheS</a>
-      <a href="#loginmodal2" class="flatbtn"  id="modaltrigger2"  style="font-size: 10px; margin:10px">Ajouter une tacheC</a>
-       <a href="#loginmodal" class="flatbtn" id="modaltrigger3" style="font-size: 10px; margin:10px">Ajouter une tacheRec</a>
-    </div>
-  </div>
+
         </div>
         <!-- /.col -->
-        <div class="col-md-9">
+        <div class="col-md-9" >
           <div class="box box-primary">
             <div class="box-body no-padding">
               <!-- THE CALENDAR -->
@@ -345,136 +305,45 @@ for(int i = 0; i < 11; ++i) {
     <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
   </footer>
 
-  <!-- Control Sidebar -->
+
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Create the tabs -->
-    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-      <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
-      <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
-    </ul>
+    
     <!-- Tab panes -->
     <div class="tab-content">
-      <!-- Home tab content -->
-      <div class="tab-pane active" id="control-sidebar-home-tab">
-        <h3 class="control-sidebar-heading">Recent Activity</h3>
+    <div >
+        <h3 class="control-sidebar-heading">T&acirc;ches R&eacute;centes</h3>
         <ul class="control-sidebar-menu">
           <li>
+          <%for(TacheSimple t : taches){ %>
             <a href="javascript:;">
-              <i class="menu-icon fa fa-birthday-cake bg-red"></i>
+   
 
               <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
+              
+                 <img src="images/tache.png" style="width:50px; height:50px;float: left;margin-left: -34px;margin-right: 12px;">
+                <h4 class="control-sidebar-subheading"><%=t.getTitre() %></h4>
 
-                <p>Will be 23 on April 24th</p>
+                <p><%=t.getDate() %></p>
+                <p><%=t.getHeuredeb().substring(1,5) %> - <%=t.getHeurefin().substring(1,5)%> </p>
               </div>
             </a>
+            <%} %>
           </li>
         </ul>
         <!-- /.control-sidebar-menu -->
-
-        <h3 class="control-sidebar-heading">Tasks Progress</h3>
-        <ul class="control-sidebar-menu">
-          <li>
-            <a href="javascript:;">
-              <h4 class="control-sidebar-subheading">
-                Custom Template Design
-                <span class="pull-right-container">
-                  <span class="label label-danger pull-right">70%</span>
-                </span>
-              </h4>
-
-              <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
-              </div>
-            </a>
-          </li>
-        </ul>
-        <!-- /.control-sidebar-menu -->
-
+         </aside>
+        
+</div>
       </div>
-      <!-- /.tab-pane -->
-      <!-- Stats tab content -->
-      <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
-      <!-- /.tab-pane -->
-      <!-- Settings tab content -->
-      <div class="tab-pane" id="control-sidebar-settings-tab">
-        <form method="post">
-          <h3 class="control-sidebar-heading">General Settings</h3>
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Report panel usage
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-
-            <p>
-              Some information about this general settings option
-            </p>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Allow mail redirect
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-
-            <p>
-              Other sets of options are available
-            </p>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Expose author name in posts
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-
-            <p>
-              Allow the user to show his name in blog posts
-            </p>
-          </div>
-          <!-- /.form-group -->
-
-          <h3 class="control-sidebar-heading">Chat Settings</h3>
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Show me as online
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Turn off notifications
-              <input type="checkbox" class="pull-right">
-            </label>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Delete chat history
-              <a href="javascript:void(0)" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
-            </label>
-          </div>
-          <!-- /.form-group -->
-        </form>
-      </div>
-      <!-- /.tab-pane -->
-    </div>
-  </aside>
+      
   <!-- /.control-sidebar -->
   <!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
-
-<!-- REQUIRED JS SCRIPTS -->
+  <!-- REQUIRED JS SCRIPTS -->
 
 <!-- jQuery 2.2.3 -->
 <!-- Bootstrap 3.3.6 -->
@@ -491,30 +360,166 @@ for(int i = 0; i < 11; ++i) {
 <script src="dist/js/demo.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
 <script src="plugins/fullcalendar/fullcalendar.min.js"></script>
-<!-- Optionally, you can add Slimscroll and FastClick plugins.
-     Both of these plugins are recommended to enhance the
-     user experience. Slimscroll is required when using the
-     fixed layout. -->
 
+<%if (msgFriendExst != null) { %>
+<script>
+toastr.options = {
+		  "closeButton": true,
+		  "debug": false,
+		  "newestOnTop": false,
+		  "progressBar": false,
+		  "positionClass": "toast-top-center",
+		  "preventDuplicates": false,
+		  "onclick": null,
+		  "showDuration": "200",
+		  "hideDuration": "1000",
+		  "timeOut": "5000",
+		  "extendedTimeOut": "1000",
+		  "showEasing": "swing",
+		  "hideEasing": "linear",
+		  "showMethod": "fadeIn",
+		  "hideMethod": "fadeOut"
+		}
+toastr["error"]("<div style='text-align:center'><h3 style='color: white; font-size:15px; padding-top:10px'>Votre liste d'amis n'est pas correcte !</h3></div>","<div style='text-align:center'><h3 style='color: white; font-size:15px'>D&eacutesol&eacute !</h3></div><br>");
+
+</script>
+<%} %>
+
+<%if (msgErrorTacheBase != null) { %>
+<script>
+toastr.options = {
+		  "closeButton": true,
+		  "debug": false,
+		  "newestOnTop": false,
+		  "progressBar": false,
+		  "positionClass": "toast-top-center",
+		  "preventDuplicates": false,
+		  "onclick": null,
+		  "showDuration": "200",
+		  "hideDuration": "1000",
+		  "timeOut": "5000",
+		  "extendedTimeOut": "1000",
+		  "showEasing": "swing",
+		  "hideEasing": "linear",
+		  "showMethod": "fadeIn",
+		  "hideMethod": "fadeOut"
+		}
+toastr["error"]("<div style='text-align:center'><h3 style='color: white; font-size:15px; padding-top:10px'>Cette t&acircche n'existe pas !</h3></div>","<div style='text-align:center'><h3 style='color: white; font-size:15px'>D&eacutesol&eacute !</h3></div><br>");
+
+</script>
+<%} %>
+
+<%if (msgErrorDispo != null) { %>
+<script>
+toastr.options = {
+		  "closeButton": true,
+		  "debug": false,
+		  "newestOnTop": false,
+		  "progressBar": false,
+		  "positionClass": "toast-top-center",
+		  "preventDuplicates": false,
+		  "onclick": null,
+		  "showDuration": "200",
+		  "hideDuration": "1000",
+		  "timeOut": "5000",
+		  "extendedTimeOut": "1000",
+		  "showEasing": "swing",
+		  "hideEasing": "linear",
+		  "showMethod": "fadeIn",
+		  "hideMethod": "fadeOut"
+		}
+toastr["error"]("<div style='text-align:center'><h3 style='color: white; font-size:15px; padding-top:10px'>Certains amis ne sont pas disponibles</h3></div>","<div style='text-align:center'><h3 style='color: white; font-size:15px'>D&eacutesol&eacute !</h3></div><br>");
+
+</script>
+<%} %>
+
+<%if (msgErrorTache != null) { %>
+<script>
+toastr.options = {
+		  "closeButton": true,
+		  "debug": false,
+		  "newestOnTop": false,
+		  "progressBar": false,
+		  "positionClass": "toast-top-center",
+		  "preventDuplicates": false,
+		  "onclick": null,
+		  "showDuration": "200",
+		  "hideDuration": "1000",
+		  "timeOut": "5000",
+		  "extendedTimeOut": "1000",
+		  "showEasing": "swing",
+		  "hideEasing": "linear",
+		  "showMethod": "fadeIn",
+		  "hideMethod": "fadeOut"
+		}
+toastr["error"]("<div style='text-align:center'><h3 style='color: white; font-size:15px; padding-top:10px'>Vous n'avez pas remplis tous les champs !</h3></div>","<div style='text-align:center'><h3 style='color: white; font-size:15px'>D&eacutesol&eacute !</h3></div><br>");
+
+</script>
+<%} %>
+<%if (msgErrorInsert != null) { %>
+<script>
+toastr.options = {
+		  "closeButton": true,
+		  "debug": false,
+		  "newestOnTop": false,
+		  "progressBar": false,
+		  "positionClass": "toast-top-center",
+		  "preventDuplicates": false,
+		  "onclick": null,
+		  "showDuration": "200",
+		  "hideDuration": "1000",
+		  "timeOut": "5000",
+		  "extendedTimeOut": "1000",
+		  "showEasing": "swing",
+		  "hideEasing": "linear",
+		  "showMethod": "fadeIn",
+		  "hideMethod": "fadeOut"
+		}
+toastr["error"]("<div style='text-align:center'><h3 style='color: white; font-size:15px; padding-top:10px'>Ce cr&eacuteneau horaire n'est pas disponible !</h3></div>","<div style='text-align:center'><h3 style='color: white; font-size:15px'>G&eacutenial  !</h3></div><br>");
+</script>
+<%} %>
+<%if (msgConfirmTache != null) { %>
+<script>
+toastr.options = {
+		  "closeButton": true,
+		  "debug": false,
+		  "newestOnTop": false,
+		  "progressBar": false,
+		  "positionClass": "toast-top-center",
+		  "preventDuplicates": false,
+		  "onclick": null,
+		  "showDuration": "200",
+		  "hideDuration": "1000",
+		  "timeOut": "5000",
+		  "extendedTimeOut": "1000",
+		  "showEasing": "swing",
+		  "hideEasing": "linear",
+		  "showMethod": "fadeIn",
+		  "hideMethod": "fadeOut"
+		}
+toastr["success"]("<div style='text-align:center'><h3 style='color: white; font-size:15px; padding-top:10px'>La t&acircche a bien &eacutet&eacute ajout&eacutee !</h3></div>","<div style='text-align:center'><h3 style='color: white; font-size:15px'>G&eacutenial  !</h3></div><br>");
+</script>
+<%} %>
+ 
   <div id="loginmodal" style="display:none;">
-    <h1>Tache Simple</h1>
+    <h1>T&acirc;che Simple</h1>
     <form  method="post" action="CreerTache">
-      <label for="titre">Titre de la tache</label>
+      <label for="titre">Titre de la t&acirc;che</label>
       <input type="text" name="titre" id="titre" class="txtfield" tabindex="1">
       
-      <label for="date">Date (aaaa/mm/jj):</label>
-      <input type="date" name="date" id="date" class="txtfield" tabindex="2">
+      <label for="date">Date (aaaa-mm-jj)</label>
+      <input type="text" name="date" id="date" class="txtfield" tabindex="2">
 	  
-	  <label for="heuredeb">Heure début:</label>
+	  <label for="heuredeb">Heure d&eacute;but (HH:MM:SS)</label>
       <input type="text" name="heuredeb" id="heuredeb" class="txtfield" tabindex="3">
       
-      <label for="heurefin">Heure fin:</label>
+      <label for="heurefin">Heure fin (HH:MM:SS)</label>
       <input type="text" name="heurefin" id="heurefin" class="txtfield" tabindex="4">
 	  
-	  	  <label for="note">Note:</label>
+	  	  <label for="note">Note</label>
       <input type="text" name="note" id="note" class="txtfield" tabindex="5">
       
-      <label for="objet">Liste d'objet:</label>
+      <label for="objet">Liste d'objet</label>
       <input type="text" name="objet" id="objet" class="txtfield" tabindex="6">
       
       <div class="center"><button type="submit" name="tachebtn" class="flatbtn-blu hidemodal"  value="tacheSimple">Ajouter</button></div>
@@ -522,12 +527,194 @@ for(int i = 0; i < 11; ++i) {
   </div>
 
   <div id="loginmodal2" style="display:none;">
-    <h1>Tache Mensuelle</h1>
+    <h1>Fixer une conf&eacute;rence</h1>
+    <form  method="post" action="CreerTache" >
+      <label for="titre">Titre de la t&acirc;che</label>
+      <input type="text" name="titre" id="titre" class="txtfield" value="Conference"tabindex="1">
+       <label for="date">Date (aaaa/mm/jj)</label>
+      <input type="text" name="date" id="date" class="txtfield" tabindex="2">
+	  
+	  <label for="heuredeb">Heure d&eacute;but (HH:MM:SS)</label>
+      <input type="text" name="heuredeb" id="heuredeb" class="txtfield" tabindex="3">
+      
+      <label for="heurefin">Heure fin (HH:MM:SS)</label>
+      <input type="text" name="heurefin" id="heurefin" class="txtfield" tabindex="4">
+	  
+	 <input id="labelSpec1" name="labelSpec1" value="Lieux" for="note" style="border: none;background: none;">
+      <input type="text" name="note" id="note" class="txtfield" tabindex="5">
+      
+       <input id="labelSpec2" name="labelSpec2" value="Sujet de conf&eacute;rence" for="note" style="border: none;background: none;">
+      <input type="text" name="objet" id="objet" class="txtfield" tabindex="6">
+      
+      <div class="center"><button type="submit" name="tachebtn" class="flatbtn-blu hidemodal"  value="tacheSpecifique">Ajouter</button></div>
+      </form>
+  </div>
+
+  <div id="loginmodal3" style="display:none;">
+    <h1>Fixer une r&eacute;union</h1>
     <form  method="post" action="CreerTache">
-      <label for="titre">Titre de la tache</label>
+      <label for="titre">Titre de la t&acirc;che</label>
+      <input type="text" name="titre" id="titre" class="txtfield" value="Reunion"tabindex="1">
+       <label for="date">Date (aaaa/mm/jj)</label>
+      <input type="date" name="date" id="date" class="txtfield" tabindex="2">
+	  
+	  <label for="heuredeb">Heure d&eacute;but (HH:MM:SS)</label>
+      <input type="text" name="heuredeb" id="heuredeb" class="txtfield" tabindex="3">
+      
+      <label for="heurefin">Heure fin (HH:MM:SS)</label>
+      <input type="text" name="heurefin" id="heurefin" class="txtfield" tabindex="4">
+	  
+	  <input id="labelSpec1" name="labelSpec1" value="Lieux" for="note" style="border: none;background: none;">
+      <input type="text" name="note" id="note" class="txtfield" tabindex="5">
+      
+      <input id="labelSpec2" name="labelSpec2" value="Sujet de la r&eacute;union" for="note" style="border: none;background: none;">
+      <input type="text" name="objet" id="objet" class="txtfield" tabindex="6">
+      
+      <div class="center"><button type="submit" name="tachebtn" class="flatbtn-blu hidemodal"  value="tacheSpecifique">Ajouter</button></div>
+      </form>
+  </div>
+ 
+  <div id="loginmodal4" style="display:none;">
+    <h1>Fixer un DST</h1>
+       <form  method="post" action="CreerTache">
+    	<div class='formTache'>
+      <label for="titre">Titre de la t&acirc;che</label>
+      <input type="text" name="titre" id="titre" class="txtfield" value="DST" tabindex="1">
+      
+      <label for="date">Date (AAAA-MM-JJ)</label>
+      <input type="text" name="date" id="date" class="txtfield" tabindex="2">
+	  
+	  <label for="heuredeb">Heure d&eacute;but(HH:MM:SS)</label>
+      <input type="text" name="heuredeb" id="heuredeb" class="txtfield" tabindex="3">
+      
+      <label for="heurefin">Heure fin(HH:MM:SS)</label>
+      <input type="text" name="heurefin" id="heurefin" class="txtfield" tabindex="4">
+	  
+	  	<input id="labelSpec1" name="labelSpec1" value="Matiere" for="note" style="border: none;background: none;">
+      <input type="text" name="note" id="note" class="txtfield" tabindex="5">
+      
+      <input id="labelSpec2" name="labelSpec2" value="Fourniture" for="note" style="border: none;background: none;">
+      <input type="text" name="objet" id="objet" class="txtfield" tabindex="6">
+      
+      <div class="center"><button type="submit" name="tachebtn" class="flatbtn-blu hidemodal"  value="tacheSpecifique">Ajouter</button></div>
+    </div>   
+    </form>
+  </div>
+   <div id="loginmodal5" style="display:none;">
+    <h1>Fixer un projet </h1>
+       <form  method="post" action="CreerTache">
+    	<div class='formTache'>
+      <label for="titre">Titre de la t&acirc;che</label>
       <input type="text" name="titre" id="titre" class="txtfield" tabindex="1">
       
-      <label for="mois">Pour le mois de :</label>
+      <label for="date">Date (AAAA-MM-JJ)</label>
+      <input type="text" name="date" id="date" class="txtfield" tabindex="2">
+	  
+	  <label for="heuredeb">Heure d&eacute;but(HH:MM:SS)</label>
+      <input type="text" name="heuredeb" id="heuredeb" class="txtfield" tabindex="3">
+      
+      <label for="heurefin">Heure fin(HH:MM:SS)</label>
+      <input type="text" name="heurefin" id="heurefin" class="txtfield" tabindex="4">
+	  
+	  	<input id="labelSpec1" name="labelSpec1" value="Matiere" for="note" style="border: none;background: none;">
+      <input type="text" name="note" id="note" class="txtfield" tabindex="5">
+      
+      <input id="labelSpec2" name="labelSpec2" value="Date de rendu" for="note" style="border: none;background: none;">
+      <input type="text" name="objet" id="objet" class="txtfield" tabindex="6">
+      
+      <div class="center"><button type="submit" name="tachebtn" class="flatbtn-blu hidemodal"  value="tacheSpecifique">Ajouter</button></div>
+    </div>   
+    </form>
+  </div>
+  
+  <div id="loginmodal6" style="display:none;">
+    <h1>Fixer une soir&eacute;e </h1>
+       <form  method="post" action="CreerTache">
+    	<div class='formTache'>
+      <label for="titre">Titre de la t&acirc;che</label>
+      <input type="text" name="titre" id="titre" class="txtfield" tabindex="1">
+      
+      <label for="date">Date (AAAA-MM-JJ)</label>
+      <input type="text" name="date" id="date" class="txtfield" tabindex="2">
+	  
+	  <label for="heuredeb">Heure d&eacute;but(HH:MM:SS)</label>
+      <input type="text" name="heuredeb" id="heuredeb" class="txtfield" tabindex="3">
+      
+      <label for="heurefin">Heure fin(HH:MM:SS)</label>
+      <input type="text" name="heurefin" id="heurefin" class="txtfield" tabindex="4">
+	  
+	  	<input id="labelSpec1" name="labelSpec1" value="Theme de la soir&eacute;e" for="note" style="border: none;background: none;">
+      <input type="text" name="note" id="note" class="txtfield" tabindex="5">
+      
+      <input id="labelSpec2" name="labelSpec2" value="Type vestimentaire" for="note" style="border: none;background: none;">
+      <input type="text" name="objet" id="objet" class="txtfield" tabindex="6">
+      
+      <div class="center"><button type="submit" name="tachebtn" class="flatbtn-blu hidemodal"  value="tacheSpecifique">Ajouter</button></div>
+    </div>   
+    </form>
+  </div>
+  
+    <div id="loginmodal7" style="display:none;">
+    <h1>Fixer un rendez-vous </h1>
+       <form  method="post" action="CreerTache">
+    	<div class='formTache'>
+      <label for="titre">Titre de la t&acirc;che</label>
+      <input type="text" name="titre" id="titre" class="txtfield" tabindex="1">
+      
+      <label for="date">Date (AAAA-MM-JJ)</label>
+      <input type="text" name="date" id="date" class="txtfield" tabindex="2">
+	  
+	  <label for="heuredeb">Heure d&eacute;but(HH:MM:SS)</label>
+      <input type="text" name="heuredeb" id="heuredeb" class="txtfield" tabindex="3">
+      
+      <label for="heurefin">Heure fin(HH:MM:SS)</label>
+      <input type="text" name="heurefin" id="heurefin" class="txtfield" tabindex="4">
+	  
+	  	<input id="labelSpec1" name="labelSpec1" value="Type de rendez-vous" for="note" style="border: none;background: none;">
+      <input type="text" name="note" id="note" class="txtfield" tabindex="5">
+      
+      <input id="labelSpec2" name="labelSpec2" value="Lieux du rendez-vous" for="note" style="border: none;background: none;">
+      <input type="text" name="objet" id="objet" class="txtfield" tabindex="6">
+      
+     <div class="center"><button type="submit" name="tachebtn" class="flatbtn-blu hidemodal"  value="tacheSpecifique">Ajouter</button></div>
+    </div>   
+    </form>
+  </div>
+  
+    <div id="loginmodal8" style="display:none;">
+    <h1>Fixer une sortie </h1>
+       <form  method="post" action="CreerTache">
+    	<div class='formTache'>
+      <label for="titre">Titre de la t&acirc;che</label>
+      <input type="text" name="titre" id="titre" class="txtfield" tabindex="1">
+      
+      <label for="date">Date (AAAA-MM-JJ)</label>
+      <input type="text" name="date" id="date" class="txtfield" tabindex="2">
+	  
+	  <label for="heuredeb">Heure d&eacute;but(HH:MM:SS)</label>
+      <input type="text" name="heuredeb" id="heuredeb" class="txtfield" tabindex="3">
+      
+      <label for="heurefin">Heure fin(HH:MM:SS)</label>
+      <input type="text" name="heurefin" id="heurefin" class="txtfield" tabindex="4">
+	  
+	  	<input id="labelSpec1" name="labelSpec1" value="Lieux" for="note" style="border: none;background: none;">
+      <input type="text" name="note" id="note" class="txtfield" tabindex="5">
+      
+      <input id="labelSpec2" name="labelSpec2" value="Budget envisag&eacute;" for="note" style="border: none;background: none;">
+      <input type="text" name="objet" id="objet" class="txtfield" tabindex="6">
+      
+     <div class="center"><button type="submit" name="tachebtn" class="flatbtn-blu hidemodal"  value="tacheSpecifique">Ajouter</button></div>
+    </div>   
+    </form>
+  </div>
+  
+   <div id="loginmodal9" style="display:none;">
+    <h1>T&acirc;che Mensuelle</h1>
+    <form  method="post" action="CreerTache">
+      <label for="titre">Titre de la t&acirc;che</label>
+      <input type="text" name="titre" id="titre" class="txtfield" tabindex="1">
+      
+      <label for="mois">Pour le mois de</label>
       <%Date d = new Date(); int mois = d.getMonth();%>
       <select name="mois" class="txtfield" tabindex="3">
       <%for (int j = mois; j <= 11; j++) { %>
@@ -535,7 +722,7 @@ for(int i = 0; i < 11; ++i) {
       <% } %>
 	 </select>
     
-      <label for="jour">Repeter tous les :</label>
+      <label for="jour">Repeter tous les</label>
       <select name="jour" class="txtfield" tabindex="3">
 				 	<option value="MONDAY">Lundi</option>
 				 	<option value="TUESDAY">Mardi</option>
@@ -546,49 +733,161 @@ for(int i = 0; i < 11; ++i) {
 				 	<option value="SUNDAY">Dimanche</option>
 	 </select>
 	 
-	  <label for="heuredeb">Heure début:</label>
+	  <label for="heuredeb">Heure d&eacute;but (HH:MM:SS)</label>
       <input type="text" name="heuredeb" id="heuredeb" class="txtfield" tabindex="2">
       
-      <label for="heurefin">Heure fin:</label>
+      <label for="heurefin">Heure fin (HH:MM:SS)</label>
       <input type="text" name="heurefin" id="heurefin" class="txtfield" tabindex="3">
 	  
-	  	  <label for="note">Note:</label>
+	  	  <label for="note">Note</label>
       <input type="text" name="note" id="note" class="txtfield" tabindex="4">
       
-      <label for="objet">Liste d'objets:</label>
+      <label for="objet">Liste d'objets</label>
       <input type="text" name="objet" id="objet" class="txtfield" tabindex="5">
       
       <div class="center"><button type="submit" name="tachebtn" class="flatbtn-blu hidemodal" value="tacheRec" tabindex="5">Ajouter</button></div>
     </form>
   </div>
 
-  <div id="loginmodal3" style="display:none;">
-    <h1>Tache Continue</h1>
+  <div id="loginmodal10" style="display:none;">
+    <h1>T&acirc;che Continue</h1>
     <form  method="post" action="CreerTache">
-      <label for="titre">Titre de la tache</label>
+      <label for="titre">Titre de la t&acirc;che</label>
       <input type="text" name="titre" id="titre" class="txtfield" tabindex="1">
     
-      <label for="jour">A partir du :</label>
+      <label for="jour">A partir du </label>
       <input type="text" name="date" id="date1" class="txtfield" tabindex="2">
 
-      <label for="jour">Pendant :</label>
+      <label for="jour">Pendant </label>
       <input type="text" name="nbJour" id="nbJour" class="txtfield" tabindex="3">
 	 
-	  <label for="heuredeb">Heure début:</label>
+	  <label for="heuredeb">Heure d&eacute;but (HH:MM:SS)</label>
       <input type="text" name="heuredeb" id="heuredeb" class="txtfield" tabindex="4">
       
-      <label for="heurefin">Heure éàè fin:</label>
+      <label for="heurefin">Heure fin (HH:MM:SS)</label>
       <input type="text" name="heurefin" id="heurefin" class="txtfield" tabindex="5">
 	  
-	  	  <label for="note">Note:</label>
+	  	  <label for="note">Note</label>
       <input type="text" name="note" id="note" class="txtfield" tabindex="6">
       
-      <label for="objet">Liste d'objets:</label>
+      <label for="objet">Liste d'objets</label>
       <input type="text" name="objet" id="objet" class="txtfield" tabindex="7">
       
       <div class="center"><button type="submit" name="tachebtn" class="flatbtn-blu hidemodal" value="tacheContinue" tabindex="8">Ajouter</button></div>
     </form>
   </div>
+
+<div id="loginmodal11" style="display:none;">
+    <h1>T&acirc;che Partag&eacute;e</h1>  
+     <form  method="post" action="CreerTache">
+      <label for="titre">Titre de la t&acirc;che</label>
+      <input type="text" name="titre" id="titre" class="txtfield" tabindex="1">
+    
+      <label for="date">Date (AAAA-MM-JJ)</label>
+      <input type="text" name="date" id="date2" class="txtfield" tabindex="2">
+	 
+	  <label for="heuredeb">Heure d&eacute;but (HH:MM:SS)</label>
+      <input type="text" name="heuredeb" id="heuredeb" class="txtfield" tabindex="4">
+      
+      <label for="heurefin">Heure de fin (HH:MM:SS)</label>
+      <input type="text" name="heurefin" id="heurefin" class="txtfield" tabindex="5">
+	  
+	   <label for="friends">Partag&eacute;e avec </label>
+      <input type="text" name="friends" id="friends" class="txtfield" tabindex="6">
+      
+      <div class="center"><button type="submit" name="tachebtn" class="flatbtn-blu hidemodal" value="tachePartageFixe" tabindex="8">Ajouter</button></div>
+    </form>
+</div>
+
+<div id="loginmodal12" style="display:none;">
+    <h1>Ajout T&acirc;che Group&eacute;e</h1>  
+     <form  method="post" action="CreerTache">
+      <label for="titre">Titre de la t&acirc;che</label>
+      <input type="text" name="titre" id="titre" class="txtfield" tabindex="1">
+    
+      <label for="date">Date (AAAA-MM-JJ)</label>
+      <input type="text" name="date" id="date3" class="txtfield" tabindex="2">
+	 
+	  <label for="duree">Dur&eacute;e (en heure) </label>
+      <input type="text" name="duree" id="duree" class="txtfield" tabindex="4">
+	  
+	   <label for="friends">Partag&eacute;e avec </label>
+      <input type="text" name="friends" id="friends" class="txtfield" tabindex="6">
+      
+      <label for="note">Note</label>
+      <input type="text" name="note" id="note" class="txtfield" tabindex="6">
+      
+      <label for="objet">Liste d'objets</label>
+      <input type="text" name="objet" id="objet" class="txtfield" tabindex="7">
+      
+      <div class="center"><button type="submit" name="tachebtn" class="flatbtn-blu hidemodal" value="tachePartageContrainteGrp" tabindex="8">Ajouter</button></div>
+    </form>
+</div> 
+
+<div id="loginmodal13" style="display:none;">
+    <h1>Ajout T&acirc;che Obligatoire </h1>  
+     <form  method="post" action="CreerTache">
+      <label for="titre">Titre de la t&acirc;che</label>
+      <input type="text" name="titre" id="titre" class="txtfield" tabindex="1">
+    
+      <label for="date">Date (AAAA-MM-JJ)</label>
+      <input type="text" name="date" id="date4" class="txtfield" tabindex="2">
+	 
+	  <label for="duree">Dur&eacute;e (en heure)</label>
+      <input type="text" name="duree" id="duree" class="txtfield" tabindex="4">
+      
+      <label for="note">Note</label>
+      <input type="text" name="note" id="note" class="txtfield" tabindex="6">
+      
+      <label for="objet">Liste d'objets</label>
+      <input type="text" name="objet" id="objet" class="txtfield" tabindex="7">
+      
+      <div class="center"><button type="submit" name="tachebtn" class="flatbtn-blu hidemodal" value="tachePartageContrainteMoi" tabindex="8">Ajouter</button></div>
+    </form>
+</div>  
+  
+  <script> 
+  // popup js
+  $(function(){
+	  $('#loginform').submit(function(e){
+	    return false;
+	  });
+	  $('#modaltrigger').leanModal({ overlay: 0.45, closeButton: ".hidemodal" });
+	  $('#modaltrigger2').leanModal({  overlay: 0.45, closeButton: ".hidemodal" });
+	  $('#modaltrigger3').leanModal({ overlay: 0.45, closeButton: ".hidemodal" });
+	  $('#modaltrigger4').leanModal({  overlay: 0.45, closeButton: ".hidemodal" });
+	  $('#modaltrigger5').leanModal({ overlay: 0.45, closeButton: ".hidemodal" });
+	  $('#modaltrigger6').leanModal({  overlay: 0.45, closeButton: ".hidemodal" });
+	  $('#modaltrigger7').leanModal({  overlay: 0.45, closeButton: ".hidemodal" });
+	  $('#modaltrigger8').leanModal({ overlay: 0.45, closeButton: ".hidemodal" });
+	  $('#modaltrigger9').leanModal({  overlay: 0.45, closeButton: ".hidemodal" });
+	  $('#modaltrigger10').leanModal({  overlay: 0.45, closeButton: ".hidemodal" });
+	  $('#modaltrigger11').leanModal({  overlay: 0.45, closeButton: ".hidemodal" });
+	  $('#modaltrigger12').leanModal({  overlay: 0.45, closeButton: ".hidemodal" });
+	  $('#modaltrigger13').leanModal({  overlay: 0.45, closeButton: ".hidemodal" });
+	  
+	  function onSubmit() { 
+		  //code de r action suite   la soumission du formulaire,
+		      //dans le cas d'une soumission   faire via une requ te ajax
+		   var login = document.getElementById('amiSearch').value;
+		   $.ajax({
+		   url  : "http://localhost:8088/PJS4_Version3/ServletGestionCompte",
+		   type :"GET",
+		   data: {"amiSearch": login},
+		   contentType: "application/json; charset=utf-8",      
+		   dataType: "text",
+		   success : function() {
+		   document.getElementById('amiSearch').value = "";
+		 	swal({
+		 			title: "Vous avez ajoute "+login,
+		 			type: 'info',
+		 			background: '#c2d6d6'		
+		 		});
+		   }
+		 }); 
+		 }
+  });
+  </script>
 
 </body>
 </html>

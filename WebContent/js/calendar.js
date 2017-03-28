@@ -1,9 +1,10 @@
 var tab;
 
 $(document).ready(function() {
-	      		$(document).ready(function() {
 	      			$( "#date" ).datepicker({dateFormat: "yy-mm-dd"}); 
-	      			$( "#date1" ).datepicker({dateFormat: "yy-mm-dd"});});
+	      			$( "#date1" ).datepicker({dateFormat: "yy-mm-dd"});
+	      			$( "#date2" ).datepicker({dateFormat: "yy-mm-dd"});
+					$( "#date3" ).datepicker({dateFormat: "yy-mm-dd"});
 		$('#calendar').fullCalendar({
 			header: {
 				left: 'prev,next today',

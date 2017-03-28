@@ -87,29 +87,39 @@ public class RecupTacheRec {
 	}
 	
 	public static ArrayList<TacheSimple> creerListTacheContinu(String dateDebTache, int freq, String nomTache, String heureDeb, String heureFin,
-			String note, String objet, int idUser) {
-		ArrayList<TacheSimple> listTache = new ArrayList<>();
+			   String note, String objet, int idUser) {
+			  ArrayList<TacheSimple> listTache = new ArrayList<>();
+			  System.out.println(dateDebTache +" Tache de base à de base");
+			  for(int i = 0; i < freq; ++i) {
+			   String dt = dateDebTache;  // Start date
 
-		for(int i = 1; i <= freq; ++i) {
-			String dt = dateDebTache;  // Start date
-			int cpt;
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy:MM:dd");
-			Calendar c = Calendar.getInstance();
-			try {
-				c.setTime(sdf.parse(dt));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			cpt=i;
-			c.add(Calendar.DATE, cpt);  // number of days to add
-			dt = sdf.format(c.getTime());
-			String tab[] = dt.split(":");
-			String dateParam = tab[0]+"-"+tab[1]+"-"+tab[2];
-			//System.out.println(dt.toString()); //creer la tache simple
-			listTache.add(new TacheSimple(nomTache,java.sql.Date.valueOf(dateParam),heureDeb,heureFin,note,objet,idUser));
-			cpt+=i;
-					
-		}
-		return listTache;
+			   SimpleDateFormat sdf = new SimpleDateFormat("yyyy:MM:dd");
+			   Date d = new Date();
+			   String tab[] = dt.split("-");
+			   int Jour = Integer.valueOf(tab[2])+i;
+			   d.setYear(Integer.valueOf(tab[0]));
+			   d.setMonth(Integer.valueOf(tab[1]));
+			   d.setDate(Jour);
+			   
+			   
+			   String annee = String.valueOf(d.getYear());
+			   String mois =  String.valueOf(d.getMonth());
+			   String Jour2 = String.valueOf(d.getDate());
+			   
+			   if(mois.length() == 1) {
+			    mois = "0"+mois;
+			   }
+			   
+			   if(Jour2.length() == 1) {
+			    Jour2 ="0"+Jour2;
+			   }
+			 
+			   String dateparam =annee+"-"+mois+"-"+Jour2;
+			   listTache.add(new TacheSimple(nomTache,java.sql.Date.valueOf(dateparam),heureDeb,heureFin,note,objet,idUser));
+			   System.out.println(dateparam +" Tache de dateParam");
+			   
+			     
+			  }
+			  return listTache;
 	}
 }

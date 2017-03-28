@@ -13,7 +13,7 @@ $(document).ready(function() {
 			editable: false,
 			disableDragging: true,
 			eventLimit: true, // allow "more" link when too many events
-			events: 'ServletCalendar',
+			events: 'events.json',
 			eventClick: function(event) {
 				var date = new Date(1490115600000);
 				swal({

@@ -32,7 +32,7 @@ $(document).ready(function() {
         $app.addClass("active");
       }, submitPhase2 - 70);
       setTimeout(function() {
-        $login.hide();
+        //$login.hide();
         $login.addClass("inactive");
         animating = false;
         $(that).removeClass("success processing");

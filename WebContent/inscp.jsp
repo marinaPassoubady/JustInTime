@@ -10,10 +10,28 @@
   <link rel='stylesheet prefetch' href='http://fonts.googleapis.com/css?family=Open+Sans'>
 <script type="text/javascript" src="./js/script.js"></script>
       <link rel="stylesheet" href="css/styleInscription.css">
+      <link rel="stylesheet" href="styleInscription.css">
+      
+<%String msgErrorSaisie = (String) request.getAttribute("msgErrorIns"); %>      
 </head>
-
+<style>
+h2#erreur {
+font-size: 30px;
+color : white;
+background-color : #ff000080;
+padding-left: 150px;
+padding-right : 150px;
+font-weight: initial;
+padding-top: 12px;
+text-align: center;
+font-family: 'Cookie-Regular';
+    /* font-family: "Open Sans", Helvetica, Arial, sans-serif; */
+}</style>
 <body>
   <div class="cont">
+  	   <%if (msgErrorSaisie != null) { %>
+	<h2 id="erreur"><%=msgErrorSaisie %></h2>
+  <% } %>
   <div class="demo">
     <div class="login">
     <form method="post" action="inscription">
@@ -21,28 +39,27 @@
       
       <div class="login__form" style="top:15%;">
         <div class="login__row">
-          <input type="text" name="nom" id="nom"  class="login__input name" placeholder="Nom" onblur="verifPseudo(this)"/>
-           <input type="text" name="Adresse" id="Adresse" class="login__input name" placeholder="Adresse"/>
+          <input type="text" name="nom" pattern="[a-zA-Z]*"  id="nom"  class="login__input name" placeholder="Nom" onblur="verifPseudo(this)"/>
+           <input type="text" name="Adresse" pattern="([a-zA-Z0-9]| |/|\|@|#|$|%|&)+"  id="Adresse" class="login__input name" placeholder="Adresse"/>
         </div>
         <div class="login__row">
-          <input id="prenom" type="text" name="prenom" class="login__input name" placeholder="Prénom" onblur="verifPseudo(this)"/>
-           <input id="age" type="text" name="age" class="login__input name" placeholder="Age"/>
+          <input id="prenom" type="text" name="prenom" pattern="[A-Za-z]*" class="login__input name" placeholder="Prénom" onblur="verifPseudo(this)"/>
+           <input id="age" type="text" name="age" pattern="[0-9]{2}" class="login__input name" placeholder="Age"/>
         </div>
         <div class="login__row">
           <input type="text" name="login" id="login" class="login__input name" placeholder="Login"/>
              <input id="dateNaiss" type="text" name="dateNaiss" class="login__input name" placeholder="Date de naissance"/>
         </div>
         <div class="login__row">
-          <input id="pass" type="password" name="pass" class="login__input pass" placeholder="Password"/>
+          <input id="pass" type="password" name="pass" class="login__input pass" placeholder="Mot de passe"/>
            <input type="tel" pattern="^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$" name="tel" 
 			id="Telephone" class="login__input name" placeholder="Téléphone"/>
         </div>
       	<div class="login__row">
-			 <input type="text"   name="mail" id="mail" class="login__input name" placeholder="Mail"/>
-			 
-
-			<select  name="statut" size="1" id="select" value="1" onchange="hideThis();">
-				<option value="1" selected="selected">Choisissez votre statut</option>
+		<input name="mail" id="mail" type="email" class="login__input name" placeholder="Mail" style="margin-left: -10%;" type="text">
+		
+			<select class="txtfield"  name="statut" size="1" id="select" value="1" onchange="hideThis();">
+				<option value="1" selected="selected">Votre statut</option>
   				<option value="2" >Professionnel</option>
   				<option value="3">Etudiant</option>
  				<option value="4">Autre</option>
@@ -50,27 +67,28 @@
 			
 			</div>
 			<div style="display:none;"class="login__row" id = "form1">
-				<input type="text" name="nomMetier" id="nomMetier" class="login__input name" placeholder="Nom de votre metier"/>
-				<input type="text" name="adrTravail" id="adrTravail" class="login__input name" placeholder="Adresse de travail"/>
+				<input type="text" name="nomMetier"  pattern="[A-Za-z]*" id="nomMetier" class="login__input name" placeholder="Nom de votre metier"/>
+				<input type="text" name="adrTravail"  pattern="[A-Za-z]*" id="adrTravail" class="login__input name" placeholder="Adresse de travail"/>
 			</div>
 
 			<div style="display:none;"  id = "form2">
 			<div class="login__row">
-				<input type="text" name="nomEtablissement" id="nomEtablissement" class="login__input name" placeholder="Nom de votre etablissement"/>
+				<input type="text" name="nomEtablissement"  pattern="[A-Za-z]*" id="nomEtablissement" class="login__input name" placeholder="Nom de votre etablissement"/>
 				<input type="text" name="dateDeb" id="dateDeb" class="login__input name" placeholder="Date de début"/>
 				</div>
 				<div class="login__row">
-			<input type="text" name="dateFin" id="dateFin" class="login__input name" placeholder="Date de fin"/>	
+			<input name="dateFin" id="dateFin" class="login__input name" placeholder="Date de fin" style="margin-left: -32%;" type="text">	
 			</div>
 			</div>
 			
 
 			<div style="display:none;"class="login__row" id = "form3">
-				<input type="text" name="situationSoc" id="situationSoc" class="login__input name" placeholder="Situation sociale"/>
+				<input name="situationSoc"  pattern="[A-Za-z]*" id="situationSoc" class="login__input name" placeholder="Situation sociale" style="margin-left: -31%;" type="text">
 			</div>
-			
+
         <!--<a href="inscp.html">-->
 		<button type="submit" class="login__submit">Sign in</button>
+		<p class="login__signup">Vous êtes déjà inscrit ? &nbsp;<a href="index.jsp">Se connecter</a></p>
 
       </div>
       </form>
